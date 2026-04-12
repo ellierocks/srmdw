@@ -2,9 +2,16 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { getAllGameIds } from "@/lib/markdown";
-import { ChevronRight, Gamepad2 } from "lucide-react";
+import { ChevronRight, Gamepad2, FileText, Zap, GitBranch } from "lucide-react";
 import Link from "next/link";
 import { siteConfig, typography, strings } from "@/config/site";
+
+const featureIcons: Record<string, React.ReactNode> = {
+  "Local First": <FileText size={24} />,
+  "Markdown Native": <FileText size={24} />,
+  "Static & Fast": <Zap size={24} />,
+  Contribute: <GitBranch size={24} />,
+};
 
 export default function Home() {
   const gameIds = getAllGameIds();
@@ -13,66 +20,100 @@ export default function Home() {
     .map((id) => ({ id, metadata: getGameMetadataSafe(id) }));
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-16">
-      <header className="text-center mb-16 space-y-4">
-        <h1 className={typography.frontpage.title}>{siteConfig.name}</h1>
-        <p className={typography.frontpage.subtext}>{strings.home.tagline}</p>
-      </header>
-
-      <section>
-        <div className="flex items-center gap-6 mb-8">
-          <h2 className="text-2xl font-black text-text tracking-tighter shrink-0">
-            {strings.common.vaultsHeader}
-          </h2>
-          <div className="h-px bg-surface1 flex-1"></div>
+    <div className="max-w-7xl mx-auto px-6 py-16">
+      <div className="flex flex-col lg:flex-row gap-16">
+        <div className="lg:w-[70%] flex flex-col justify-center">
+          <header className="space-y-6">
+            <h1 className={typography.frontpage.title}>{siteConfig.name}</h1>
+            <p className="text-2xl max-w-2xl leading-relaxed text-subtext1 font-bold">
+              {strings.home.tagline}
+            </p>
+          </header>
         </div>
 
-        {games.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {games.map((game) => (
-              <Link key={game.id} href={`/${game.id}`} className="group block">
-                <div className="relative aspect-[3/2] w-full overflow-hidden bg-surface0 border border-surface1 transition-all group-hover:border-mauve group-hover:-translate-y-1">
-                  {game.metadata.cover ? (
-                    <img
-                      src={game.metadata.cover}
-                      alt={game.metadata.title}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full flex-col items-center justify-center gap-3 text-subtext1 opacity-40">
-                      <Gamepad2 size={48} />
-                      <span className="text-[10px] font-black tracking-widest">
-                        {strings.common.noCoverFound}
-                      </span>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-mantle/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                    <div className="text-mauve text-xs font-black flex items-center gap-1.5 tracking-tight">
-                      Enter <ChevronRight size={12} />
+        <div className="lg:w-[30%]">
+          <div className="flex items-center gap-6 mb-6">
+            <h2 className="text-xl font-black text-text tracking-tighter shrink-0">
+              {strings.common.vaultsHeader}
+            </h2>
+            <div className="h-px bg-surface1 flex-1"></div>
+          </div>
+
+          {games.length > 0 ? (
+            <div className="space-y-4">
+              {games.map((game) => (
+                <Link
+                  key={game.id}
+                  href={`/${game.id}`}
+                  className="group block"
+                >
+                  <div className="relative aspect-[2/3] w-full max-w-[200px] overflow-hidden bg-surface0 border border-surface1 transition-all group-hover:border-mauve group-hover:-translate-y-1">
+                    {game.metadata.cover ? (
+                      <img
+                        src={game.metadata.cover}
+                        alt={game.metadata.title}
+                        className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full flex-col items-center justify-center gap-3 text-subtext1 opacity-40">
+                        <Gamepad2 size={32} />
+                        <span className="text-[10px] font-black tracking-widest">
+                          {strings.common.noCoverFound}
+                        </span>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-mantle/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                      <div className="text-mauve text-xs font-black flex items-center gap-1 tracking-tight">
+                        Enter <ChevronRight size={10} />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="mt-3 space-y-1">
-                  <h3 className="text-base font-black text-text tracking-tight group-hover:text-mauve transition-colors">
-                    {game.metadata.title}
-                  </h3>
-                  <p className="text-xs text-subtext1 leading-relaxed opacity-60 line-clamp-2">
-                    {game.metadata.description}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-16 text-subtext1 opacity-60">
-            <p className="text-base font-bold">No game vaults yet.</p>
-            <p className="text-xs mt-2">
-              Add folders to <code className="text-mauve">/content</code> to get
-              started.
-            </p>
-          </div>
-        )}
-      </section>
+                  <div className="mt-2 space-y-0.5 max-w-[200px]">
+                    <h3 className="text-sm font-black text-text tracking-tight group-hover:text-mauve transition-colors line-clamp-1">
+                      {game.metadata.title}
+                    </h3>
+                    <p className="text-[11px] text-subtext1 leading-relaxed opacity-60 line-clamp-2">
+                      {game.metadata.description}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8 text-subtext1 opacity-60">
+              <p className="text-sm font-bold">No game vaults yet.</p>
+              <p className="text-xs mt-2">
+                Add folders to <code className="text-mauve">/content</code> to
+                get started.
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="mt-24 pt-16 border-t border-surface1">
+        <h2 className="text-2xl font-black text-text tracking-tight mb-8">
+          How It Works
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {strings.features.map((feature, index) => (
+            <div
+              key={index}
+              className="p-6 bg-surface0 border border-surface1 hover:border-mauve/50 transition-colors"
+            >
+              <div className="w-12 h-12 bg-mauve/10 border border-mauve/20 flex items-center justify-center mb-4 text-mauve">
+                {featureIcons[feature.title] || <FileText size={24} />}
+              </div>
+              <h3 className="text-base font-black text-text mb-2">
+                {feature.title}
+              </h3>
+              <p className="text-sm text-subtext1 leading-relaxed">
+                {feature.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

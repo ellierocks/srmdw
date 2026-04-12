@@ -4,6 +4,8 @@ export const siteConfig = {
   description:
     "Speedrun-Wiki & Statically Rendered Wiki. Pure Markdown files formatted for Obsidian support.",
   githubUrl: "https://github.com/ellierocks/sr-wiki",
+  githubRepo: "ellierocks/sr-wiki",
+  githubBranch: "main",
   author: "sr-wiki community",
 
   defaultTheme: "mocha",

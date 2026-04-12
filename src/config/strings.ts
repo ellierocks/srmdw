@@ -28,6 +28,21 @@ export const strings = {
     unknown: "Unknown",
   },
 
+  // Tags
+  tags: {
+    header: "Tags",
+    browseAll: "Browse All Tags",
+    pagesCount: (n: number) => `${n} page${n === 1 ? "" : "s"}`,
+    noPages: "No pages with this tag.",
+    relatedTags: "Related Tags",
+  },
+
+  // Page Actions
+  pageActions: {
+    suggestEdit: "Suggest Edit",
+    raiseIssue: "Raise Issue",
+  },
+
   // Home page strings
   home: {
     tagline:

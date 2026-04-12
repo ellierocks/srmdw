@@ -1,16 +1,17 @@
 # sr-wiki (statically rendered wiki)
 
-A Markdown focused wiki frontend designed for speedrunning documentation. Built with
-**Next.js 16 (App Router)** and **Tailwind CSS v4**.
+A Markdown focused wiki frontend designed for any kind of documentation. Built
+with **Next.js 16 (App Router)** and **Tailwind CSS v4**.
 
 ## Features
 
-- **Markdown-First:** Content is stored as pure Markdown files that are future
-  proof and automatically backed up via git.
+- **Markdown-First:** All articles are stored as pure Markdown files that are
+  version controlled and automatically backed up via git.
 - **Obsidian-Compatible:** Support for `[[Wikilinks]]` and `> [!info]` Callouts.
 - **Multi-Game Support:** Organize content by game folder in `content/`.
 - **SSG:** Blazing fast static site generation.
-- **SPA**: No database, clone the repo and host it locally to point it to your /content
+- **SPA**: No database, clone the repo and host it locally in seconds, get it
+  hosted remotely in minutes.
 
 ## Getting Started
 
@@ -54,8 +55,8 @@ A Markdown focused wiki frontend designed for speedrunning documentation. Built 
 Speedrunning is the art of researching a game endlessly. Our wiki content must
 reflect that. We only accept:
 
-- Original research.
-- Manually written guides.
+- Original research and new discoveries.
+- Manually written guides and high quality videos/tutorials.
 - Community-verified documentation.
 
 **AI-generated writing pull requested to /content in the form of markdown files

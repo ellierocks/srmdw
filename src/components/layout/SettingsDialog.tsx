@@ -28,7 +28,7 @@ export function SettingsDialog() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 p-2 bg-surface0 text-subtext1 hover:text-mauve hover:bg-surface1 transition-all border border-surface1"
+        className="flex items-center justify-center w-[42px] h-[42px] bg-surface0 border border-surface1 text-subtext1 hover:text-mauve hover:bg-surface1 transition-all"
         title="Settings"
       >
         <SettingsIcon size={18} />

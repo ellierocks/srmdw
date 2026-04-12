@@ -9,6 +9,7 @@ export interface PageData {
   game?: string;
   title: string;
   description?: string;
+  tags?: string[];
   content: string;
   frontmatter: Record<string, any>;
 }
@@ -100,11 +101,16 @@ export async function getPageData(
     }
   );
 
+  const tags = Array.isArray(data.tags)
+    ? data.tags.filter((t): t is string => typeof t === "string")
+    : undefined;
+
   return {
     slug,
     game,
     title: data.title || slug[slug.length - 1] || game,
     description: data.description || "",
+    tags,
     content: processedContent,
     frontmatter: data,
   };
@@ -173,7 +179,7 @@ export function getContentTree(): TreeItem[] {
   )
     return [];
 
-  const buildTree = (dir: string): TreeItem[] => {
+  const buildTree = (dir: string, depth: number = 0): TreeItem[] => {
     const files = fs.readdirSync(dir);
     const items: TreeItem[] = [];
 
@@ -184,12 +190,12 @@ export function getContentTree(): TreeItem[] {
       const slug = relativePath.replace(/\.md$/, "").split(path.sep);
 
       if (stats.isDirectory()) {
-        const children = buildTree(fullPath);
+        const children = buildTree(fullPath, depth + 1);
         const hasIndex = fs.existsSync(path.join(fullPath, "index.md"));
 
         if (children.length > 0 || hasIndex) {
           items.push({
-            title: file.replace(/-/g, " "),
+            title: depth === 0 ? file : file.replace(/-/g, " "),
             slug,
             isFolder: true,
             hasIndex,

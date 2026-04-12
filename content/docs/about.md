@@ -11,16 +11,14 @@ spinners or slow page transitions.
 
 ## The Vault Concept
 
-Instead of a single monolithic wiki where all pages share the same navigation,
-content is separated into "Vaults". A Vault represents a specific game or
-isolated topic. Each Vault gets its own folder structure, unique sidebar
-navigation tree, and metadata. This keeps information cleanly separated and
-makes the site extremely fast to navigate.
+Markdown files are displayed directly from the content/ folder. Each folder is 
+separated into "Vaults". A Vault represents a topic, and each Vault gets its own 
+folder structure and index.md (main page).
 
-## The Git-Backed Workflow
+## Version control
 
 This wiki is entirely file-based, meaning all content lives as raw Markdown
-within the source code repository.
+within the source code repository and all changes and tracked and managed by github.
 
 **How edits are handled:**
 
