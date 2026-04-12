@@ -41,3 +41,7 @@ next-env.d.ts
 
 # OS
 Thumbs.db
+
+# AI configuration
+CLAUDE.md
+AGENTS.md
