@@ -29,8 +29,8 @@ export default async function GameLayout({
 
   return (
     <GameInfoProvider gameMeta={gameMeta}>
-      <div className="w-full max-w-[100rem] mx-auto px-4 sm:px-8 py-8 lg:py-12">
-        <div className="flex gap-8">
+      <div className="w-full mx-auto px-4 sm:px-8 py-8 lg:py-12">
+        <div className="flex gap-12">
           <div className="flex-1 min-w-0">
             <nav className="flex items-center gap-1.5 text-[10px] font-black text-overlay1 tracking-widest mb-10 opacity-60 group">
               <Link href="/" className="hover:text-mauve transition-colors">
@@ -76,10 +76,8 @@ export default async function GameLayout({
           </div>
 
           {isRootPage && gameMeta && (
-            <div className="w-72 shrink-0 hidden xl:block">
-              <div className="sticky top-24">
-                <GameInfoCard metadata={gameMeta} />
-              </div>
+            <div className="w-80 shrink-0 hidden xl:block">
+              <GameInfoCard metadata={gameMeta} />
             </div>
           )}
         </div>

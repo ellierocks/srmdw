@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { getAllGameIds } from "@/lib/markdown";
-import { ChevronRight, Gamepad2, Folder, FileText } from "lucide-react";
+import { ChevronRight, Gamepad2 } from "lucide-react";
 import Link from "next/link";
 import { siteConfig, typography, strings } from "@/config/site";
 
@@ -12,28 +12,12 @@ export default function Home() {
     .filter((id) => id !== "docs")
     .map((id) => ({ id, metadata: getGameMetadataSafe(id) }));
 
-  const articleCount = countMarkdownFiles();
-
   return (
     <div className="max-w-5xl mx-auto px-6 py-16">
       <header className="text-center mb-16 space-y-4">
         <h1 className={typography.frontpage.title}>{siteConfig.name}</h1>
         <p className={typography.frontpage.subtext}>{strings.home.tagline}</p>
       </header>
-
-      <div className="flex items-center justify-center gap-8 mb-16">
-        <StatCard
-          icon={<Folder className="text-mauve" size={20} />}
-          label="Vaults"
-          value={games.length}
-        />
-        <div className="w-px h-12 bg-surface1" />
-        <StatCard
-          icon={<FileText className="text-blue" size={20} />}
-          label="Articles"
-          value={articleCount}
-        />
-      </div>
 
       <section>
         <div className="flex items-center gap-6 mb-8">
@@ -93,30 +77,6 @@ export default function Home() {
   );
 }
 
-function StatCard({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: number;
-}) {
-  return (
-    <div className="flex items-center gap-3 px-5 py-3 bg-surface0/50 border border-surface1">
-      <div className="shrink-0">{icon}</div>
-      <div className="flex flex-col">
-        <span className="text-2xl font-black text-text tracking-tight">
-          {value}
-        </span>
-        <span className="text-[10px] font-bold text-subtext1 opacity-60 tracking-wide uppercase">
-          {label}
-        </span>
-      </div>
-    </div>
-  );
-}
-
 interface GameMetadata {
   title: string;
   description: string;
@@ -141,26 +101,4 @@ function getGameMetadataSafe(id: string): GameMetadata {
   }
 
   return { title, description, cover };
-}
-
-function countMarkdownFiles(): number {
-  const contentDir = path.join(process.cwd(), "content");
-  if (!fs.existsSync(contentDir)) return 0;
-
-  let count = 0;
-  const walk = (dir: string) => {
-    const files = fs.readdirSync(dir);
-    files.forEach((file) => {
-      if (file === "docs") return;
-      const fullPath = path.join(dir, file);
-      const stats = fs.statSync(fullPath);
-      if (stats.isDirectory()) {
-        walk(fullPath);
-      } else if (file.endsWith(".md")) {
-        count++;
-      }
-    });
-  };
-  walk(contentDir);
-  return count;
 }

@@ -15,6 +15,10 @@ const MIN_WIDTH = 280;
 const MAX_WIDTH = 480;
 const DEFAULT_WIDTH = 300;
 
+const MIN_TOC_HEIGHT = 120;
+const MAX_TOC_HEIGHT_RATIO = 0.6;
+const DEFAULT_TOC_HEIGHT = 240;
+
 interface SidebarProps {
   tree: Array<{
     title: string;
@@ -48,12 +52,26 @@ export function Sidebar({ tree }: SidebarProps) {
   const [isResizing, setIsResizing] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
+  const [tocHeight, setTocHeight] = useState(DEFAULT_TOC_HEIGHT);
+  const [isResizingToc, setIsResizingToc] = useState(false);
+  const tocDragStartY = useRef(0);
+  const tocDragStartHeight = useRef(DEFAULT_TOC_HEIGHT);
+
   const sidebarRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const savedWidth = localStorage.getItem("sidebar-width");
     if (savedWidth) {
       setWidth(Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, parseInt(savedWidth))));
+    }
+    const savedTocHeight = localStorage.getItem("sidebar-toc-height");
+    if (savedTocHeight) {
+      setTocHeight(
+        Math.min(
+          MAX_TOC_HEIGHT_RATIO * window.innerHeight,
+          Math.max(MIN_TOC_HEIGHT, parseInt(savedTocHeight))
+        )
+      );
     }
     setIsMounted(true);
   }, []);
@@ -98,6 +116,55 @@ export function Sidebar({ tree }: SidebarProps) {
     };
   }, [isResizing, resize, stopResizing]);
 
+  const startResizingToc = useCallback(
+    (e: React.PointerEvent) => {
+      e.preventDefault();
+      tocDragStartY.current = e.clientY;
+      tocDragStartHeight.current = tocHeight;
+      setIsResizingToc(true);
+    },
+    [tocHeight]
+  );
+
+  const stopResizingToc = useCallback(() => {
+    setIsResizingToc(false);
+    localStorage.setItem("sidebar-toc-height", tocHeight.toString());
+  }, [tocHeight]);
+
+  const resizeToc = useCallback(
+    (e: PointerEvent) => {
+      if (isResizingToc) {
+        const delta = tocDragStartY.current - e.clientY;
+        const maxH =
+          (sidebarRef.current?.getBoundingClientRect().height ??
+            window.innerHeight) * MAX_TOC_HEIGHT_RATIO;
+        let newHeight = tocDragStartHeight.current + delta;
+        if (newHeight < MIN_TOC_HEIGHT) newHeight = MIN_TOC_HEIGHT;
+        if (newHeight > maxH) newHeight = maxH;
+        setTocHeight(newHeight);
+      }
+    },
+    [isResizingToc]
+  );
+
+  useEffect(() => {
+    if (isResizingToc) {
+      window.addEventListener("pointermove", resizeToc);
+      window.addEventListener("pointerup", stopResizingToc);
+      document.body.style.cursor = "row-resize";
+      document.body.style.userSelect = "none";
+    } else {
+      window.removeEventListener("pointermove", resizeToc);
+      window.removeEventListener("pointerup", stopResizingToc);
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+    }
+    return () => {
+      window.removeEventListener("pointermove", resizeToc);
+      window.removeEventListener("pointerup", stopResizingToc);
+    };
+  }, [isResizingToc, resizeToc, stopResizingToc]);
+
   return (
     <motion.aside
       ref={sidebarRef}
@@ -125,15 +192,27 @@ export function Sidebar({ tree }: SidebarProps) {
               </div>
               <SidebarTree items={tree} />
             </div>
-
-            <div>
-              <div className={`px-3 mb-2 ${typography.sidebar.header}`}>
-                Contents
-              </div>
-              <TableOfContents />
-            </div>
           </div>
         </nav>
+
+        <div
+          onPointerDown={startResizingToc}
+          className={`shrink-0 h-3 cursor-row-resize hover:bg-mauve/30 active:bg-mauve transition-colors flex items-center justify-center ${isResizingToc ? "bg-mauve" : ""}`}
+        >
+          <div className="w-8 h-0.5 rounded-full bg-surface1" />
+        </div>
+
+        <div
+          style={{ height: isMounted ? tocHeight : DEFAULT_TOC_HEIGHT }}
+          className="shrink-0 overflow-y-auto scrollbar-hide py-4"
+        >
+          <div className="px-4">
+            <div className={`px-3 mb-2 ${typography.sidebar.header}`}>
+              Contents
+            </div>
+            <TableOfContents />
+          </div>
+        </div>
 
         <div className="p-4 bg-crust/50 border-t border-surface1 shrink-0">
           <div className="flex items-center justify-between">
