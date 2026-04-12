@@ -5,10 +5,11 @@ A beautiful, high-performance, file-based speedrunning wiki frontend. Built with
 
 ## Features
 
-- **Markdown-First:** Zero vendor lock-in. Content is stored as pure Markdown.
+- **Markdown-First:** Content is stored as pure Markdown files that are future proof and automatically backed up via git.
 - **Obsidian-Compatible:** Support for `[[Wikilinks]]` and `> [!info]` Callouts.
 - **Multi-Game Support:** Organize content by game folder in `content/`.
 - **SSG:** Blazing fast static site generation.
+- **SPA**: No database, clone the repo and host it locally to point it to your own collection of Markdown files.
 
 ## Getting Started
 
@@ -50,19 +51,14 @@ A beautiful, high-performance, file-based speedrunning wiki frontend. Built with
 
 ## Content Policy
 
-Speedrunning is about human precision. Our wiki content must reflect that. We
+Speedrunning is the art of researching a game endlessly. Our wiki content must reflect that. We
 only accept:
 
 - Original research.
 - Manually written guides.
 - Community-verified documentation.
 
-**AI-generated content is strictly prohibited.**
+**AI-generated writing pull requested to /content in the form of markdown files is strictly prohibited, AI does not understand speedrunning the way humans do and is incapable of creating documentation for it.**
 
-<<<<<<< HEAD
-## 📄 License
-
-=======
 ## License
->>>>>>> 9fda34eccf917d6e65126e5f0c85f6ea5013f529
 Licensed under the [MIT License](LICENSE).
