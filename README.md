@@ -1,15 +1,15 @@
-# 🚀 Speedrun Wiki
+# Speedrun Wiki
 
 A beautiful, high-performance, file-based speedrunning wiki frontend. Built with **Next.js 16 (App Router)** and **Tailwind CSS v4**.
 
-## ✨ Features
+## Features
 
 - **Markdown-First:** Zero vendor lock-in. Content is stored as pure Markdown.
 - **Obsidian-Compatible:** Support for `[[Wikilinks]]` and `> [!info]` Callouts.
 - **Multi-Game Support:** Organize content by game folder in `content/`.
 - **SSG:** Blazing fast static site generation.
 
-## 🛠️ Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -33,7 +33,7 @@ A beautiful, high-performance, file-based speedrunning wiki frontend. Built with
    npm run format
    ```
 
-## 🚀 Deployment to Production (Vercel)
+## Deployment to Production (Vercel)
 
 1. **Push your code to GitHub.**
 2. **Import your repository into [Vercel](https://vercel.com/new).**
@@ -44,7 +44,7 @@ A beautiful, high-performance, file-based speedrunning wiki frontend. Built with
    - Install Command: `npm install`
 4. **Deploy:** Vercel will automatically trigger builds on every push to the `main` branch.
 
-## ⚖️ Content Policy
+## Content Policy
 
 Speedrunning is about human precision. Our wiki content must reflect that. We only accept:
 
@@ -54,5 +54,5 @@ Speedrunning is about human precision. Our wiki content must reflect that. We on
 
 **AI-generated content is strictly prohibited.**
 
-## 📄 License
+## License
 Licensed under the [MIT License](LICENSE).
