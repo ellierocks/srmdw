@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Speedrun Wiki
 
-## Getting Started
+A beautiful, high-performance, file-based speedrunning wiki frontend. Built with **Next.js 16 (App Router)** and **Tailwind CSS v4**.
 
-First, run the development server:
+## ✨ Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Markdown-First:** Zero vendor lock-in. Content is stored as pure Markdown.
+- **Obsidian-Compatible:** Support for `[[Wikilinks]]` and `> [!info]` Callouts.
+- **Multi-Game Support:** Organize content by game folder in `content/`.
+- **SSG:** Blazing fast static site generation.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js 20+
+- npm, yarn, or pnpm
 
-## Learn More
+### Development
 
-To learn more about Next.js, take a look at the following resources:
+1. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Run Development Server:**
+   ```bash
+   npm run dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Format Content:**
+   ```bash
+   npm run format
+   ```
 
-## Deploy on Vercel
+## 🚀 Deployment to Production (Vercel)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Push your code to GitHub.**
+2. **Import your repository into [Vercel](https://vercel.com/new).**
+3. **Configure the Project:**
+   - Framework: **Next.js**
+   - Output Directory: `.next`
+   - Build Command: `next build`
+   - Install Command: `npm install`
+4. **Deploy:** Vercel will automatically trigger builds on every push to the `main` branch.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ⚖️ Content Policy
+
+Speedrunning is about human precision. Our wiki content must reflect that. We only accept:
+
+- Original research.
+- Manually written guides.
+- Community-verified documentation.
+
+**AI-generated content is strictly prohibited.**
+
+## 📄 License
+Licensed under the [MIT License](LICENSE).
