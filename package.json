@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npx tsx scripts/generate-index.ts && next dev",
-    "prebuild": "npx tsx scripts/generate-index.ts",
+    "dev": "bunx tsx scripts/generate-index.ts && next dev",
+    "prebuild": "bunx tsx scripts/generate-index.ts",
     "build": "next build",
     "start": "next start",
     "lint": "oxlint",
