@@ -45,3 +45,8 @@ Thumbs.db
 # AI configuration
 CLAUDE.md
 AGENTS.md
+
+# Project-specific
+catppuccin-style-guide.md
+STYLE_GUIDE.md
+opencode.json
