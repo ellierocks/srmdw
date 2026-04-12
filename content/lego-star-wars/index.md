@@ -1,12 +1,12 @@
 ---
 title: "LEGO Star Wars: The Video Game"
-description: "The game that started the LEGO video game phenomenon."
+description: "This is a clone of LSW1's wikipedia page in Markdown as an example."
 developer: "Traveller's Tales"
 publisher: "Eidos Interactive, Giant Interactive Entertainment"
 released: "2005-03-29"
 platforms:
   ["PlayStation 2", "Xbox", "GameCube", "PC", "Game Boy Advance", "Mac OS X"]
-cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1q67.webp"
+cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co4930.webp"
 ---
 
 _Lego Star Wars: The Video Game_ (sometimes simply called _Lego Star Wars_) is a
