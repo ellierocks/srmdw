@@ -73,7 +73,7 @@ export default function Search() {
             className="relative w-full max-w-2xl"
           >
             <Command
-              className="w-full bg-mantle border border-surface1 shadow-2xl overflow-hidden flex flex-col rounded-lg"
+              className="w-full bg-mantle border border-surface1 shadow-2xl overflow-hidden flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center px-6 bg-surface0/50">
@@ -99,9 +99,9 @@ export default function Search() {
                       router.push(item.slug);
                       setOpen(false);
                     }}
-                    className="flex items-center gap-4 px-4 py-3 cursor-pointer aria-selected:bg-mauve/10 aria-selected:text-mauve group transition-all rounded-md"
+                    className="flex items-center gap-4 px-4 py-3 cursor-pointer aria-selected:bg-mauve/10 aria-selected:text-mauve group transition-all"
                   >
-                    <div className="w-8 h-8 rounded bg-surface0 flex items-center justify-center shrink-0 border border-surface1 group-aria-selected:border-mauve/30 transition-colors">
+                    <div className="w-8 h-8 bg-surface0 flex items-center justify-center shrink-0 border border-surface1 group-aria-selected:border-mauve/30 transition-colors">
                       <FileText
                         size={16}
                         className="opacity-60 group-aria-selected:opacity-100"

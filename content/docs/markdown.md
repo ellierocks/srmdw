@@ -1,8 +1,7 @@
 ---
 title: "Markdown Reference"
 description:
-  "A comprehensive reference of all supported Markdown features in the
-  sr-wiki."
+  "A comprehensive reference of all supported Markdown features in the sr-wiki."
 ---
 
 This page tests all of the typography, MDX components, and markdown features

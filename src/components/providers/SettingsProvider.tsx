@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface Settings {
   hwAccelScroll: boolean;
+  sidebarVisible: boolean;
 }
 
 interface SettingsContextType {
@@ -13,6 +14,7 @@ interface SettingsContextType {
 
 const defaultSettings: Settings = {
   hwAccelScroll: true,
+  sidebarVisible: true,
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(

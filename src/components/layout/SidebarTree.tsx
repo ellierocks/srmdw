@@ -16,11 +16,10 @@ interface TreeItem {
 
 interface SidebarTreeProps {
   items: TreeItem[];
-  game: string;
   depth?: number;
 }
 
-export function SidebarTree({ items, game, depth = 0 }: SidebarTreeProps) {
+export function SidebarTree({ items, depth = 0 }: SidebarTreeProps) {
   const pathname = usePathname();
 
   return (
@@ -33,7 +32,6 @@ export function SidebarTree({ items, game, depth = 0 }: SidebarTreeProps) {
         <TreeElement
           key={item.slug.join("-")}
           item={item}
-          game={game}
           depth={depth}
           pathname={pathname}
         />
@@ -44,17 +42,14 @@ export function SidebarTree({ items, game, depth = 0 }: SidebarTreeProps) {
 
 function TreeElement({
   item,
-  game,
   depth,
   pathname,
 }: {
   item: TreeItem;
-  game: string;
   depth: number;
   pathname: string;
 }) {
-  const href =
-    item.slug.length > 0 ? `/${game}/${item.slug.join("/")}` : `/${game}`;
+  const href = `/${item.slug.join("/")}`;
   const isChildActive = pathname.startsWith(href + "/") || pathname === href;
   const [isOpen, setIsOpen] = useState(isChildActive);
   const isActive = pathname === href;
@@ -63,8 +58,8 @@ function TreeElement({
     return (
       <div className="select-none">
         <div
-          className={`group flex items-center transition-all rounded-sm overflow-hidden ${
-            isActive ? "bg-mauve/10" : "hover:bg-surface0"
+          className={`group flex items-center transition-all overflow-hidden ${
+            isActive ? "bg-yellow/10" : "hover:bg-surface0"
           }`}
         >
           {/* Chevron button: Only toggles open/close */}
@@ -76,8 +71,8 @@ function TreeElement({
             }}
             className={`flex items-center justify-center w-8 h-8 shrink-0 transition-colors ${
               isOpen
-                ? "text-mauve"
-                : "text-subtext1 group-hover:text-mauve opacity-40 group-hover:opacity-100"
+                ? "text-yellow"
+                : "text-subtext1 group-hover:text-yellow opacity-40 group-hover:opacity-100"
             }`}
           >
             <ChevronRight
@@ -90,10 +85,11 @@ function TreeElement({
           {item.hasIndex ? (
             <Link
               href={href}
+              prefetch={true}
               className={`flex-1 py-1.5 pr-2 truncate text-left transition-colors ${typography.sidebar.entry} ${
                 isActive
-                  ? "text-mauve font-black"
-                  : "text-subtext1 group-hover:text-mauve"
+                  ? "text-yellow font-black"
+                  : "text-subtext1 group-hover:text-yellow"
               }`}
             >
               {item.title}
@@ -108,7 +104,7 @@ function TreeElement({
         </div>
 
         {isOpen && item.children && (
-          <SidebarTree items={item.children} game={game} depth={depth + 1} />
+          <SidebarTree items={item.children} depth={depth + 1} />
         )}
       </div>
     );
@@ -117,7 +113,8 @@ function TreeElement({
   return (
     <Link
       href={href}
-      className={`flex items-center gap-3 px-3 py-2 transition-all group border-l-2 rounded-sm ${
+      prefetch={true}
+      className={`flex items-center gap-3 px-3 py-2 transition-all group border-l-2 ${
         isActive
           ? "bg-mauve text-base font-bold border-mauve shadow-lg shadow-mauve/10"
           : "text-subtext1 hover:bg-surface0 hover:text-mauve border-transparent"

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { List } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 interface TOCItem {
   id: string;
@@ -9,11 +9,8 @@ interface TOCItem {
   level: number;
 }
 
-interface TOCProps {
-  cover?: string;
-}
-
-export function TableOfContents({ cover }: TOCProps) {
+export function TableOfContents() {
+  const pathname = usePathname();
   const [headings, setHeadings] = useState<TOCItem[]>([]);
   const [activeId, setActiveId] = useState<string>("");
   const headingElementsRef = useRef<{
@@ -21,14 +18,17 @@ export function TableOfContents({ cover }: TOCProps) {
   }>({});
 
   useEffect(() => {
-    // We wait for the content to be rendered
+    setHeadings([]);
+    setActiveId("");
+    headingElementsRef.current = {};
+
     const elements = Array.from(
       document.querySelectorAll("article h2, article h3")
     );
     const items = elements.map((el) => {
       const id =
         el.id || el.textContent?.toLowerCase().replace(/\s+/g, "-") || "";
-      if (!el.id) el.id = id; // Ensure ID exists for linking
+      if (!el.id) el.id = id;
       return {
         id,
         text: el.textContent || "",
@@ -37,20 +37,17 @@ export function TableOfContents({ cover }: TOCProps) {
     });
     setHeadings(items);
 
-    // Default to the first heading immediately
-    if (items.length > 0 && !activeId) {
+    if (items.length > 0) {
       setActiveId(items[0].id);
     }
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // Update our map of intersecting headings
         headingElementsRef.current = entries.reduce((map, headingElement) => {
           map[headingElement.target.id] = headingElement;
           return map;
         }, headingElementsRef.current);
 
-        // Filter out all currently intersecting headings
         const visibleHeadings: IntersectionObserverEntry[] = [];
         Object.keys(headingElementsRef.current).forEach((key) => {
           const headingElement = headingElementsRef.current[key];
@@ -62,7 +59,6 @@ export function TableOfContents({ cover }: TOCProps) {
         const getIndexFromId = (id: string) =>
           items.findIndex((heading) => heading.id === id);
 
-        // Determine which of the intersecting headings is highest on the page
         if (visibleHeadings.length === 1) {
           setActiveId(visibleHeadings[0].target.id);
         } else if (visibleHeadings.length > 1) {
@@ -72,53 +68,34 @@ export function TableOfContents({ cover }: TOCProps) {
           setActiveId(sortedVisibleHeadings[0].target.id);
         }
       },
-      // Require headings to reach at least the bottom 40% of the screen, and track them
-      // as they scroll all the way up and past the top (using a large top positive margin to ensure
-      // long sections don't 'disappear' when their heading is above the viewport)
       { rootMargin: "1000px 0px -40% 0px" }
     );
 
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
+
+  if (headings.length === 0) {
+    return (
+      <p className="text-xs text-subtext1 opacity-60 px-3 py-2">No headings</p>
+    );
+  }
 
   return (
-    <aside className="w-64 hidden xl:flex flex-col sticky top-24 self-start pl-8 pr-4 max-h-[calc(100vh-8rem)]">
-      <div className="overflow-y-auto scrollbar-hide flex-1">
-        {headings.length > 0 && (
-          <>
-            <div className="flex items-center gap-2 mb-4 text-[10px] font-black text-overlay1 tracking-widest opacity-60">
-              <List size={14} />
-              On this page
-            </div>
-            <nav className="space-y-1">
-              {headings.map((heading) => (
-                <a
-                  key={heading.id}
-                  href={`#${heading.id}`}
-                  className={`block text-xs transition-all border-l-2 py-1.5 px-3 hover:text-mauve hover:border-mauve/50 ${
-                    activeId === heading.id
-                      ? "text-mauve border-mauve font-bold bg-mauve/5"
-                      : "text-subtext1 border-transparent"
-                  } ${heading.level === 3 ? "ml-4" : ""}`}
-                >
-                  {heading.text}
-                </a>
-              ))}
-            </nav>
-          </>
-        )}
-      </div>
-
-      {cover && (
-        <div className="mt-auto pt-8 shrink-0">
-          <img
-            src={cover}
-            className="w-full rounded-md border border-surface1 shadow-2xl transition-transform hover:scale-105 duration-300"
-            alt=""
-          />
-        </div>
-      )}
-    </aside>
+    <div className="space-y-1">
+      {headings.map((heading) => (
+        <a
+          key={heading.id}
+          href={`#${heading.id}`}
+          className={`block text-xs transition-all border-l-2 py-1.5 px-3 hover:text-mauve hover:border-mauve/50 ${
+            activeId === heading.id
+              ? "text-mauve border-mauve font-bold bg-mauve/5"
+              : "text-subtext1 border-transparent"
+          } ${heading.level === 3 ? "ml-4" : ""}`}
+        >
+          {heading.text}
+        </a>
+      ))}
+    </div>
   );
 }

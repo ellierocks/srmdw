@@ -5,9 +5,9 @@ description: "How this wiki works and its design philosophy."
 
 ## What is sr-wiki?
 
-sr-wiki is a modern, static wiki generated directly from Markdown files.
-It uses Next.js to provide a fast, smooth, and robust reading experience without
-loading spinners or slow page transitions.
+sr-wiki is a modern, static wiki generated directly from Markdown files. It uses
+Next.js to provide a fast, smooth, and robust reading experience without loading
+spinners or slow page transitions.
 
 ## The Vault Concept
 

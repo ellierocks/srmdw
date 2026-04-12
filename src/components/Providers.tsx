@@ -9,6 +9,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <ThemeProvider
       attribute="data-theme"
       defaultTheme={siteConfig.defaultTheme}
+      enableSystem={false}
     >
       <SettingsProvider>{children}</SettingsProvider>
     </ThemeProvider>

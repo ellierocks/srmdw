@@ -166,6 +166,56 @@ export function getGameTree(game: string): TreeItem[] {
   return buildTree(gameDir);
 }
 
+export function getContentTree(): TreeItem[] {
+  if (
+    !fs.existsSync(contentDirectory) ||
+    !fs.statSync(contentDirectory).isDirectory()
+  )
+    return [];
+
+  const buildTree = (dir: string): TreeItem[] => {
+    const files = fs.readdirSync(dir);
+    const items: TreeItem[] = [];
+
+    files.forEach((file) => {
+      const fullPath = path.join(dir, file);
+      const stats = fs.statSync(fullPath);
+      const relativePath = path.relative(contentDirectory, fullPath);
+      const slug = relativePath.replace(/\.md$/, "").split(path.sep);
+
+      if (stats.isDirectory()) {
+        const children = buildTree(fullPath);
+        const hasIndex = fs.existsSync(path.join(fullPath, "index.md"));
+
+        if (children.length > 0 || hasIndex) {
+          items.push({
+            title: file.replace(/-/g, " "),
+            slug,
+            isFolder: true,
+            hasIndex,
+            children,
+          });
+        }
+      } else if (file.endsWith(".md") && file !== "index.md") {
+        const fileContents = fs.readFileSync(fullPath, "utf8");
+        const { data } = matter(fileContents);
+        items.push({
+          title: data.title || file.replace(/\.md$/, "").replace(/-/g, " "),
+          slug,
+        });
+      }
+    });
+
+    return items.sort((a, b) => {
+      if (a.isFolder && !b.isFolder) return -1;
+      if (!a.isFolder && b.isFolder) return 1;
+      return a.title.localeCompare(b.title);
+    });
+  };
+
+  return buildTree(contentDirectory);
+}
+
 export function getAllPagePaths(): { game: string; slug: string[] }[] {
   const games = getAllGameIds();
   const paths: { game: string; slug: string[] }[] = [];

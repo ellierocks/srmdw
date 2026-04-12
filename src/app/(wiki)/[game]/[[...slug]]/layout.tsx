@@ -1,6 +1,6 @@
-import { getGameTree, getGameMetadata } from "@/lib/markdown";
-import { TableOfContents } from "@/components/layout/TableOfContents";
-import { SidebarUpdater } from "@/components/layout/SidebarContext";
+import { getGameMetadata } from "@/lib/markdown";
+import { GameInfoProvider } from "@/components/layout/GameInfoContext";
+import { GameInfoCard } from "@/components/ui/GameInfoCard";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import fs from "fs";
@@ -15,7 +15,6 @@ export default async function GameLayout({
 }) {
   const { game, slug = [] } = await params;
 
-  // Check if this is a real game folder
   const gamePath = path.join(process.cwd(), "content", game);
   const isGameFolder =
     fs.existsSync(gamePath) && fs.statSync(gamePath).isDirectory();
@@ -24,61 +23,67 @@ export default async function GameLayout({
     return <div className="p-8 text-center text-subtext1">Game not found</div>;
   }
 
-  const tree = getGameTree(game);
-  const gameMeta = getGameMetadata(game);
   const fullPath = [game, ...slug];
+  const isRootPage = slug.length === 0;
+  const gameMeta = isRootPage ? getGameMetadata(game) : null;
 
   return (
-    <div className="w-full max-w-[100rem] mx-auto flex gap-8 xl:gap-16 px-4 sm:px-8 py-8 lg:py-12">
-      <SidebarUpdater tree={tree} game={game} />
+    <GameInfoProvider gameMeta={gameMeta}>
+      <div className="w-full max-w-[100rem] mx-auto px-4 sm:px-8 py-8 lg:py-12">
+        <div className="flex gap-8">
+          <div className="flex-1 min-w-0">
+            <nav className="flex items-center gap-1.5 text-[10px] font-black text-overlay1 tracking-widest mb-10 opacity-60 group">
+              <Link href="/" className="hover:text-mauve transition-colors">
+                Home
+              </Link>
+              {fullPath.map((part, index) => {
+                const href = "/" + fullPath.slice(0, index + 1).join("/");
+                const isLast = index === fullPath.length - 1;
 
-      <div className="flex-1 min-w-0 max-w-5xl">
-        {/* Top Breadcrumbs */}
-        <nav className="flex items-center gap-1.5 text-[10px] font-black text-overlay1 tracking-widest mb-10 opacity-60 group">
-          <Link href="/" className="hover:text-mauve transition-colors">
-            Home
-          </Link>
-          {fullPath.map((part, index) => {
-            const href = "/" + fullPath.slice(0, index + 1).join("/");
-            const isLast = index === fullPath.length - 1;
+                const folderPath = path.join(
+                  process.cwd(),
+                  "content",
+                  ...fullPath.slice(0, index + 1),
+                  "index.md"
+                );
+                const hasIndex = fs.existsSync(folderPath);
 
-            // Check if this folder has an index.md
-            const folderPath = path.join(
-              process.cwd(),
-              "content",
-              ...fullPath.slice(0, index + 1),
-              "index.md"
-            );
-            const hasIndex = fs.existsSync(folderPath);
+                return (
+                  <div key={index} className="flex items-center gap-1.5">
+                    <ChevronRight size={10} className="text-overlay0" />
+                    {isLast || !hasIndex ? (
+                      <span
+                        className={
+                          isLast ? "text-mauve font-black" : "text-overlay1"
+                        }
+                      >
+                        {part.replace(/-/g, " ")}
+                      </span>
+                    ) : (
+                      <Link
+                        href={href}
+                        className="hover:text-mauve transition-colors"
+                      >
+                        {part.replace(/-/g, " ")}
+                      </Link>
+                    )}
+                  </div>
+                );
+              })}
+            </nav>
 
-            return (
-              <div key={index} className="flex items-center gap-1.5">
-                <ChevronRight size={10} className="text-overlay0" />
-                {isLast || !hasIndex ? (
-                  <span
-                    className={
-                      isLast ? "text-mauve font-black" : "text-overlay1"
-                    }
-                  >
-                    {part.replace(/-/g, " ")}
-                  </span>
-                ) : (
-                  <Link
-                    href={href}
-                    className="hover:text-mauve transition-colors"
-                  >
-                    {part.replace(/-/g, " ")}
-                  </Link>
-                )}
+            <div className="relative">{children}</div>
+          </div>
+
+          {isRootPage && gameMeta && (
+            <div className="w-72 shrink-0 hidden xl:block">
+              <div className="sticky top-24">
+                <GameInfoCard metadata={gameMeta} />
               </div>
-            );
-          })}
-        </nav>
-
-        <div className="relative">{children}</div>
+            </div>
+          )}
+        </div>
       </div>
-
-      <TableOfContents cover={gameMeta.cover} />
-    </div>
+    </GameInfoProvider>
   );
 }

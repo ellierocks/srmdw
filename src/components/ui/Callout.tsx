@@ -51,7 +51,7 @@ export function Callout({ type = "info", title, children }: CalloutProps) {
   const style = calloutStyles[type] || calloutStyles.info;
 
   return (
-    <div className={clsx("p-4 my-6 border-l-4 rounded-r-lg", style.container)}>
+    <div className={clsx("p-4 my-6 border-l-4", style.container)}>
       <div className="flex items-center gap-2 mb-2 font-black text-[10px] tracking-widest opacity-80 uppercase">
         {style.icon}
         {title || style.defaultTitle}

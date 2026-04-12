@@ -9,7 +9,7 @@ export const strings = {
     vaultsHeader: "vaults",
     wikiExplorerHeader: "Wiki Explorer",
     navigationHeader: "Navigation",
-    activeVaultsHeader: "Active Vault",
+    activeVaultsHeader: "Active Vaults",
     vaultStatusLabel: "Vault Status",
     verifiedDocLabel: "Verified Documentation",
     lastUpdatedLabel: "Last Updated",
@@ -31,7 +31,7 @@ export const strings = {
   // Home page strings
   home: {
     tagline:
-      "a file based wiki for speedgames, pure Markdown files in a git repo.",
+      "a version controlled wiki for game documentation, pure Markdown files in a git repo.",
   },
 
   // Feature cards
@@ -39,12 +39,12 @@ export const strings = {
     {
       title: "Local First",
       description:
-        "Your content lives in the 'content/' folder as standard .md files.",
+        "Your content lives in the 'content/' folder, no database required",
     },
     {
-      title: "Obsidian Ready",
+      title: "Markdown Native",
       description:
-        "Compatible with Obsidian Vaults. Support for Wikilinks and Callouts.",
+        "Pure .md files with wiki links, callouts, and syntax highlighting.",
     },
     {
       title: "Static & Fast",
@@ -52,9 +52,9 @@ export const strings = {
         "Built with Next.js SSG. Lightning-fast page loads and zero overhead.",
     },
     {
-      title: "Community Guidelines",
+      title: "Contribute",
       description:
-        "Learn how to contribute and maintain high-quality documentation.",
+        "Learn how to use git, edit Markdown, and maintain high-quality documentation.",
     },
   ],
 };

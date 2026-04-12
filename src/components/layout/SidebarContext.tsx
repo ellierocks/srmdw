@@ -46,7 +46,7 @@ export function SidebarUpdater({
 }) {
   const { setTree, setGame } = useSidebar();
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     setTree(tree);
     if (game !== undefined) setGame(game);
   }, [tree, game, setTree, setGame]);

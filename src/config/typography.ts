@@ -2,67 +2,68 @@ export const typography = {
   // Main title (e.g., wiki landing pages)
   title: {
     className:
-      "text-6xl font-black text-text tracking-tighter mb-4 leading-tight text-balance",
+      "text-6xl font-black tracking-tighter mb-4 leading-tight text-balance text-text",
   },
 
   // Page description/subtext
   description: {
     className:
-      "text-xl text-subtext1 leading-relaxed max-w-2xl font-bold opacity-80",
+      "text-xl leading-relaxed max-w-2xl font-bold opacity-80 text-subtext1",
   },
 
   // Article (MDX content)
   article: {
-    // Base Tailwind Typography class (e.g., prose, prose-lg, prose-xl)
     baseClass: "prose-lg",
-
-    // Custom overrides to prose
     className: `
-      prose prose-invert prose-mauve max-w-none 
-      prose-headings:text-text prose-headings:font-black prose-headings:tracking-tight 
-      prose-p:text-subtext1 prose-p:leading-relaxed
-      prose-strong:text-mauve prose-a:text-mauve prose-a:no-underline 
+      prose prose-invert max-w-none 
+      prose-headings:font-black prose-headings:tracking-tight prose-headings:text-text
+      prose-p:leading-relaxed prose-p:text-subtext1
+      prose-strong:text-mauve prose-a:no-underline prose-a:text-link
       prose-a:hover:underline prose-a:hover:underline-offset-4 prose-a:hover:decoration-2
-      prose-blockquote:border-mauve prose-blockquote:bg-surface0/30 prose-blockquote:py-1 prose-blockquote:border-l-4 prose-blockquote:font-bold
+      prose-blockquote:border-l-4 prose-blockquote:font-bold prose-blockquote:bg-surface0/30 prose-blockquote:py-1
+      prose-code:text-peach prose-code:bg-surface0 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
+      prose-pre:bg-surface0 prose-pre:border prose-pre:border-surface1
+      prose-li:text-subtext1
+      prose-h2:text-text prose-h3:text-text
     `,
   },
 
   // Metadata labels (Developer, Released, etc.)
   metadata: {
     label:
-      "text-[10px] font-black text-overlay1 tracking-widest uppercase opacity-60",
+      "text-[10px] font-black tracking-widest uppercase opacity-60 text-overlay1",
     value: "text-xs font-bold text-text",
   },
 
   // Sidebar labels
   sidebar: {
     entry: "text-[13px] font-bold tracking-tight",
-    header: "text-[10px] font-black text-overlay1 tracking-widest opacity-60",
+    header: "text-[10px] font-black tracking-widest opacity-60 text-overlay1",
     activeVault: {
       label:
-        "text-[9px] font-black text-overlay1 tracking-widest leading-none mb-1 opacity-60",
-      title: "text-[11px] font-bold text-text truncate tracking-tighter",
+        "text-[9px] font-black tracking-widest leading-none mb-1 opacity-60 text-overlay1",
+      title: "text-[11px] font-bold truncate tracking-tighter text-text",
     },
   },
 
   // Breadcrumbs
   breadcrumbs: {
     className:
-      "flex items-center gap-1.5 text-[10px] font-black text-overlay1 tracking-widest mb-10 opacity-60 group",
+      "flex items-center gap-1.5 text-[10px] font-black tracking-widest mb-10 opacity-60 text-overlay1 group",
   },
 
   // Frontpage title
   frontpage: {
-    title: "text-8xl font-black tracking-tighter text-text leading-none",
+    title: "text-8xl font-black tracking-tighter leading-none text-text",
     subtext:
-      "text-2xl text-subtext1 max-w-3xl mx-auto leading-relaxed text-balance opacity-80 font-bold",
+      "text-2xl max-w-3xl mx-auto leading-relaxed text-balance opacity-80 font-bold text-subtext1",
   },
 
   // Search
   search: {
     input:
-      "w-full py-6 bg-transparent text-text placeholder:text-subtext0 outline-none font-bold tracking-tight text-lg",
-    empty: "py-12 text-center text-subtext1 font-bold tracking-tight text-sm",
+      "w-full py-6 bg-transparent placeholder:text-subtext0 outline-none font-bold tracking-tight text-lg text-text",
+    empty: "py-12 text-center font-bold tracking-tight text-sm text-subtext1",
     itemTitle: "font-bold text-sm tracking-tight text-text",
     itemSubtitle:
       "text-[10px] font-black opacity-40 tracking-widest uppercase flex items-center gap-1.5 mt-0.5",

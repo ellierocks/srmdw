@@ -1,41 +1,48 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Home as HomeIcon, ChevronRight } from "lucide-react";
-import { SidebarTree } from "./SidebarTree";
-import { FlavorSwitcher } from "./FlavorSwitcher";
+import { motion } from "framer-motion";
+import { Home as HomeIcon, PanelLeft } from "lucide-react";
 import { SettingsDialog } from "./SettingsDialog";
 import { typography, strings } from "@/config/site";
-import { useSidebar } from "./SidebarContext";
-import { PlatformIcon } from "@/components/ui/PlatformIcon";
+import { useSettings } from "@/components/providers/SettingsProvider";
+import { SidebarTree } from "./SidebarTree";
+import { TableOfContents } from "./TableOfContents";
 
-interface GameMetadata {
-  id: string;
-  title: string;
-  description: string;
-  cover?: string;
-  platforms?: string[];
-}
+const MIN_WIDTH = 280;
+const MAX_WIDTH = 480;
+const DEFAULT_WIDTH = 300;
 
 interface SidebarProps {
-  allGames: GameMetadata[];
+  tree: Array<{
+    title: string;
+    slug: string[];
+    isFolder?: boolean;
+    hasIndex?: boolean;
+    children?: Array<{
+      title: string;
+      slug: string[];
+      isFolder?: boolean;
+      hasIndex?: boolean;
+      children?: any[];
+    }>;
+  }>;
 }
 
-const MIN_WIDTH = 220;
-const MAX_WIDTH = 480;
-const DEFAULT_WIDTH = 260;
+export function SidebarContainer({ tree }: SidebarProps) {
+  const { settings } = useSettings();
 
-export function Sidebar({ allGames }: SidebarProps) {
+  if (!settings.sidebarVisible) {
+    return null;
+  }
+
+  return <Sidebar tree={tree} />;
+}
+
+export function Sidebar({ tree }: SidebarProps) {
   const pathname = usePathname();
-  const params = useParams();
-  const { tree, game: contextGame } = useSidebar();
-
-  // game is from params.game
-  const gameId = params.game as string | undefined;
-  const activeGameId = contextGame || gameId;
 
   const [width, setWidth] = useState(DEFAULT_WIDTH);
   const [isResizing, setIsResizing] = useState(false);
@@ -43,7 +50,6 @@ export function Sidebar({ allGames }: SidebarProps) {
 
   const sidebarRef = useRef<HTMLElement>(null);
 
-  // Load width from localStorage on mount
   useEffect(() => {
     const savedWidth = localStorage.getItem("sidebar-width");
     if (savedWidth) {
@@ -99,17 +105,11 @@ export function Sidebar({ allGames }: SidebarProps) {
       className="relative bg-mantle flex flex-col sticky top-0 h-screen shrink-0 overflow-hidden z-[40]"
       initial={false}
     >
-      {/* Sidebar Top Spacer - matches layout header height */}
       <div className="h-[80px] border-b border-surface1 shrink-0" />
 
-      {/* Main Sidebar Content - Vertical line only below the header */}
       <div className="flex-1 flex flex-col border-r border-surface1 overflow-hidden">
-        {/* Navigation Content */}
         <nav className="flex-1 overflow-y-auto scrollbar-hide py-6">
-          <div className="px-4 mb-8">
-            <div className={`px-3 mb-2 ${typography.sidebar.header}`}>
-              {strings.common.navigationHeader}
-            </div>
+          <div className="px-4 space-y-6">
             <div className="space-y-1">
               <SidebarLink
                 href="/"
@@ -118,57 +118,31 @@ export function Sidebar({ allGames }: SidebarProps) {
                 isActive={pathname === "/"}
               />
             </div>
-          </div>
 
-          <div className="px-4 mb-8">
-            <div className={`px-3 mb-2 ${typography.sidebar.header}`}>
-              {strings.common.activeVaultsHeader}
+            <div>
+              <div className={`px-3 mb-2 ${typography.sidebar.header}`}>
+                Files
+              </div>
+              <SidebarTree items={tree} />
             </div>
-            <div className="space-y-1">
-              {allGames.map((g) => {
-                const isActive = pathname.startsWith(`/${g.id}`);
-                const isFullyActive = activeGameId === g.id;
 
-                return (
-                  <div key={g.id} className="space-y-1">
-                    <SidebarLink
-                      href={`/${g.id}`}
-                      icon={
-                        <PlatformIcon platforms={g.platforms || []} size={16} />
-                      }
-                      label={g.title}
-                      isActive={isActive}
-                    />
-
-                    <AnimatePresence>
-                      {isFullyActive && tree && tree.length > 0 && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          className="overflow-hidden ml-4 border-l border-surface1/50 my-1"
-                        >
-                          <SidebarTree items={tree} game={g.id} />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              })}
+            <div>
+              <div className={`px-3 mb-2 ${typography.sidebar.header}`}>
+                Contents
+              </div>
+              <TableOfContents />
             </div>
           </div>
         </nav>
 
-        {/* Sidebar Footer */}
-        <div className="p-4 bg-crust/50 border-t border-surface1 space-y-4 shrink-0">
-          <div className="flex items-center justify-center gap-2">
-            <FlavorSwitcher />
+        <div className="p-4 bg-crust/50 border-t border-surface1 shrink-0">
+          <div className="flex items-center justify-between">
+            <SidebarHideButton />
             <SettingsDialog />
           </div>
         </div>
       </div>
 
-      {/* Resize Handle - Start below 80px */}
       <div
         onPointerDown={startResizing}
         className={`absolute right-0 top-[80px] bottom-0 w-1 cursor-col-resize hover:bg-mauve/30 active:bg-mauve transition-colors z-50 ${isResizing ? "bg-mauve" : ""}`}
@@ -205,7 +179,20 @@ function SidebarLink({
         {icon}
       </div>
       <span className="truncate">{label}</span>
-      {isActive && <ChevronRight className="ml-auto w-3 h-3 opacity-50" />}
     </Link>
+  );
+}
+
+function SidebarHideButton() {
+  const { settings, updateSetting } = useSettings();
+
+  return (
+    <button
+      onClick={() => updateSetting("sidebarVisible", !settings.sidebarVisible)}
+      className="flex items-center justify-center w-8 h-8 bg-surface0 border border-surface1 text-subtext1 hover:text-mauve hover:bg-surface1 transition-all"
+      title={settings.sidebarVisible ? "Hide sidebar" : "Show sidebar"}
+    >
+      <PanelLeft size={16} />
+    </button>
   );
 }
