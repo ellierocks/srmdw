@@ -1,7 +1,7 @@
 {
-  "name": "sr-wiki",
-  "short_name": "sr-wiki",
-  "description": "Speedrun Wiki & Statically Rendered Wiki",
+  "name": "speedrun.md",
+  "short_name": "speedrun.md",
+  "description": "Statically Rendered Markdown Wiki",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#1e1e2e",

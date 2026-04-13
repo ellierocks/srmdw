@@ -6,7 +6,7 @@ export const strings = {
     searchPlaceholder: "Search speedrun wiki...",
     quickSearch: "Quick search...",
     noResults: (search: string) => `No results for "${search}"`,
-    vaultsHeader: "vaults",
+    featuredVaultHeader: "Featured Vault",
     wikiExplorerHeader: "Wiki Explorer",
     navigationHeader: "Navigation",
     activeVaultsHeader: "Active Vaults",

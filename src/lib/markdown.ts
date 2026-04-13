@@ -36,7 +36,7 @@ export function getAllGameIds() {
 
 export function getGameMetadata(id: string): GameMetadata {
   const indexPath = path.join(contentDirectory, id, "index.md");
-  let title = id.replace(/-/g, " ");
+  let title = id;
   let description = "";
   let cover: string | undefined = undefined;
   let developer: string | undefined = undefined;
@@ -195,7 +195,7 @@ export function getContentTree(): TreeItem[] {
 
         if (children.length > 0 || hasIndex) {
           items.push({
-            title: depth === 0 ? file : file.replace(/-/g, " "),
+            title: file.replace(/-/g, " "),
             slug,
             isFolder: true,
             hasIndex,
@@ -255,4 +255,76 @@ export function getAllPagePaths(): { game: string; slug: string[] }[] {
   });
 
   return paths;
+}
+
+export interface NavPage {
+  title: string;
+  slug: string[];
+  href: string;
+}
+
+export function getFolderPages(game: string, slug: string[]): NavPage[] {
+  const gameDir = path.join(contentDirectory, game);
+  const folderPath =
+    slug.length > 0 ? path.join(gameDir, ...slug.slice(0, -1)) : gameDir;
+
+  if (!fs.existsSync(folderPath) || !fs.statSync(folderPath).isDirectory()) {
+    return [];
+  }
+
+  const pages: NavPage[] = [];
+  const files = fs.readdirSync(folderPath);
+
+  files.forEach((file) => {
+    const fullPath = path.join(folderPath, file);
+    const stats = fs.statSync(fullPath);
+
+    if (stats.isDirectory()) {
+      const indexPath = path.join(fullPath, "index.md");
+      if (fs.existsSync(indexPath)) {
+        const { data } = matter(fs.readFileSync(indexPath, "utf8"));
+        const fileSlug = path.relative(gameDir, fullPath).split(path.sep);
+        pages.push({
+          title: data.title || file.replace(/-/g, " "),
+          slug: fileSlug,
+          href: `/${game}/${fileSlug.join("/")}`,
+        });
+      }
+    } else if (file.endsWith(".md") && file !== "index.md") {
+      const { data } = matter(fs.readFileSync(fullPath, "utf8"));
+      const relativePath = path.relative(gameDir, fullPath);
+      const fileSlug = relativePath.replace(/\.md$/, "").split(path.sep);
+      pages.push({
+        title: data.title || file.replace(/\.md$/, "").replace(/-/g, " "),
+        slug: fileSlug,
+        href: `/${game}/${fileSlug.join("/")}`,
+      });
+    }
+  });
+
+  return pages.sort((a, b) => {
+    const aIsIndex = a.slug[a.slug.length - 1] === "index";
+    const bIsIndex = b.slug[b.slug.length - 1] === "index";
+    if (aIsIndex && !bIsIndex) return -1;
+    if (!aIsIndex && bIsIndex) return 1;
+    return a.title.localeCompare(b.title);
+  });
+}
+
+export function getPrevNextPages(
+  game: string,
+  slug: string[]
+): { prev: NavPage | null; next: NavPage | null } {
+  const pages = getFolderPages(game, slug);
+  const currentSlug = slug.join("/");
+  const currentIndex = pages.findIndex((p) => p.slug.join("/") === currentSlug);
+
+  if (currentIndex === -1) {
+    return { prev: null, next: null };
+  }
+
+  return {
+    prev: currentIndex > 0 ? pages[currentIndex - 1] : null,
+    next: currentIndex < pages.length - 1 ? pages[currentIndex + 1] : null,
+  };
 }

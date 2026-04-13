@@ -1,7 +1,7 @@
 ---
 title: "Markdown Reference"
 description:
-  "A comprehensive reference of all supported Markdown features in the sr-wiki."
+  "A comprehensive reference of all supported Markdown features in speedrun.md."
 ---
 
 This page tests all of the typography, MDX components, and markdown features
@@ -11,17 +11,17 @@ that we support. It is used to ensure everything renders correctly.
 
 We support Obsidian/GitHub style callouts.
 
-> [!info] Version Differences Most speedruns are performed on the Japanese or US
-> versions. The Shindou version patches the BLJ glitch.
+> [!info] Version Differences
+> The Shindou version patches the BLJ glitch.
 
-> [!warning] Danger Ahead Be careful when performing this skip, as it can
-> corrupt your save file if done incorrectly.
+> [!warning] Be careful when performing this skip
+> it can corrupt your save file if done incorrectly.
 
-> [!danger] Do Not Attempt This route is deprecated and known to cause
-> softlocks.
+> [!danger] Do not attempt this route unless
+> you're goated with the bobby sauce, then you may proceed.
 
-> [!success] New Route Found! The community has recently discovered a new
-> consistent setup for this trick.
+> [!success] New Route Found!
+> On 12/04/2026 the community discovered a new any% route.
 
 > [!note] Just a quick note without a custom title.
 

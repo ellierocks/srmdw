@@ -1,4 +1,4 @@
-import { getPageData, getAllPagePaths } from "@/lib/markdown";
+import { getPageData, getAllPagePaths, getPrevNextPages } from "@/lib/markdown";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import rehypePrettyCode from "rehype-pretty-code";
 import { StaggeredEntry } from "@/components/ui/StaggeredEntry";
 import { remarkCallout } from "@/lib/remark-callout";
 import { PageActions } from "@/components/ui/PageActions";
+import { PageNavigation } from "@/components/ui/PageNavigation";
 import { Badge } from "@/components/ui/Badge";
 import { Tag } from "lucide-react";
 import { ChevronRight } from "lucide-react";
@@ -51,6 +52,7 @@ export default async function WikiPage({ params }: PageProps) {
 
   try {
     const page = await getPageData(game, slug);
+    const { prev, next } = getPrevNextPages(game, slug);
     const breadcrumb = `/${game}${slug.length > 0 ? `/${slug.join("/")}` : ""}`;
 
     return (
@@ -60,7 +62,7 @@ export default async function WikiPage({ params }: PageProps) {
             <div className="flex items-start justify-between gap-4 mb-4">
               <nav className="flex items-center gap-1 text-sm text-subtext1">
                 <Link href="/" className="hover:text-mauve transition-colors">
-                  wiki
+                  Home
                 </Link>
                 <ChevronRight size={14} className="opacity-50" />
                 <Link
@@ -125,6 +127,7 @@ export default async function WikiPage({ params }: PageProps) {
           </article>
 
           <PageActions game={game} slug={slug} title={page.title} />
+          <PageNavigation prev={prev} next={next} />
         </StaggeredEntry>
 
         <div className="mt-24" />

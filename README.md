@@ -1,7 +1,7 @@
-# sr-wiki (statically rendered wiki)
+# srmdw (statically rendered markdown wiki)
 
-A Markdown focused wiki frontend designed for any kind of documentation. Built
-with **Next.js 16 (App Router)** and **Tailwind CSS v4**.
+A Markdown focused wiki frontend designed for open source community
+documentation. Built with **Next.js 16 (App Router)** and **Tailwind CSS v4**.
 
 ## Features
 

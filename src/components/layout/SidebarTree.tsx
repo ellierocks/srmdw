@@ -86,7 +86,7 @@ function TreeElement({
             <Link
               href={href}
               prefetch={true}
-              className={`flex-1 py-1.5 pr-2 truncate text-left transition-colors ${typography.sidebar.entry} ${
+              className={`flex-1 py-2 pr-2 truncate text-left transition-colors ${typography.sidebar.entry} ${
                 isActive
                   ? "text-yellow font-black"
                   : "text-subtext1 group-hover:text-yellow"
@@ -96,7 +96,7 @@ function TreeElement({
             </Link>
           ) : (
             <span
-              className={`flex-1 py-1.5 pr-2 truncate text-left opacity-60 italic cursor-default ${typography.sidebar.entry}`}
+              className={`flex-1 py-2 pr-2 truncate text-left opacity-60 italic cursor-default ${typography.sidebar.entry}`}
             >
               {item.title}
             </span>

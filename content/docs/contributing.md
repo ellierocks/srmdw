@@ -1,11 +1,11 @@
 ---
 title: "Contributing"
-description: "Guidelines for contributing to sr-wiki."
+description: "Guidelines for contributing to speedrun.md."
 ---
 
 ## How to Contribute
 
-We welcome contributions from the community! Because sr-wiki is statically
+We welcome contributions from the community! Because speedrun.md is statically
 generated entirely from Markdown files, contributing is as simple as editing
 text files. You don't need to know React or Next.js to add content.
 
@@ -32,3 +32,9 @@ edits, and submit a Pull Request on GitHub.
 
 Please refer to our [Markdown Guide](/docs/markdown) to see all the powerful
 formatting features we support, like tables, alerts, and code blocks.
+
+### Content Policy
+
+All content must be human-written. Please read our
+[Content Policy](/docs/content-policy) before contributing to understand what is
+and is not acceptable.

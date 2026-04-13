@@ -1,4 +1,4 @@
-const CACHE_NAME = "sr-wiki-v1";
+const CACHE_NAME = "srmdw-v1";
 const STATIC_ASSETS = ["/", "/manifest.json", "/icon.svg"];
 
 self.addEventListener("install", (event) => {

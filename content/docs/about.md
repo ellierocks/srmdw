@@ -1,24 +1,25 @@
 ---
-title: "About sr-wiki"
+title: "About speedrun.md"
 description: "How this wiki works and its design philosophy."
 ---
 
-## What is sr-wiki?
+## What is speedrun.md?
 
-sr-wiki is a modern, static wiki generated directly from Markdown files. It uses
-Next.js to provide a fast, smooth, and robust reading experience without loading
-spinners or slow page transitions.
+speedrun.md is a modern, static wiki generated directly from Markdown files. It
+uses Next.js to provide a fast, smooth, and robust reading experience without
+loading spinners or slow page transitions.
 
 ## The Vault Concept
 
-Markdown files are displayed directly from the content/ folder. Each folder is 
-separated into "Vaults". A Vault represents a topic, and each Vault gets its own 
+Markdown files are displayed directly from the content/ folder. Each folder is
+separated into "Vaults". A Vault represents a topic, and each Vault gets its own
 folder structure and index.md (main page).
 
 ## Version control
 
 This wiki is entirely file-based, meaning all content lives as raw Markdown
-within the source code repository and all changes and tracked and managed by github.
+within the source code repository and all changes are tracked and managed by
+github.
 
 **How edits are handled:**
 

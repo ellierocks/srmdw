@@ -1,12 +1,13 @@
 export const siteConfig = {
-  name: "sr-wiki",
-  title: "sr-wiki",
+  name: "srmdw",
+  title: "speedrun.md",
   description:
-    "Speedrun-Wiki & Statically Rendered Wiki. Pure Markdown files formatted for Obsidian support.",
-  githubUrl: "https://github.com/ellierocks/sr-wiki",
-  githubRepo: "ellierocks/sr-wiki",
+    "Statically Rendered Markdown Wiki. Pure Markdown files formatted for Obsidian support.",
+  githubUrl: "https://github.com/ellierocks/srmdw",
+  githubRepo: "ellierocks/srmdw",
   githubBranch: "main",
-  author: "sr-wiki community",
+  author: "srmdw community",
+  featuredGame: "lego-star-wars-the-video-game",
 
   defaultTheme: "mocha",
 
