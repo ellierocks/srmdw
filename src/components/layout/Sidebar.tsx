@@ -9,6 +9,7 @@ import { useSettings } from "@/components/providers/SettingsProvider";
 import { typography, strings } from "@/config/site";
 import { SidebarTree } from "./SidebarTree";
 import { TableOfContents } from "./TableOfContents";
+import { KoFiButton } from "./KoFiButton";
 
 const MIN_WIDTH = 280;
 const MAX_WIDTH = 480;
@@ -252,6 +253,10 @@ export function Sidebar({
             </div>
             <TableOfContents />
           </div>
+        </div>
+
+        <div className="shrink-0 flex justify-center py-3">
+          <KoFiButton />
         </div>
       </div>
 
