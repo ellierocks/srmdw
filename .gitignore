@@ -45,8 +45,12 @@ Thumbs.db
 # AI configuration
 CLAUDE.md
 AGENTS.md
+GEMINI.md
 
 # Project-specific
 catppuccin-style-guide.md
 STYLE_GUIDE.md
 opencode.json
+
+.gemini/
+gha-creds-*.json
